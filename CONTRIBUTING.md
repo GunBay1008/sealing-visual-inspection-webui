@@ -4,7 +4,7 @@ Read these guidelines before contributing to the project.
 
 ## Setting Up Your Developer Environment
 
-Create a virtual environment using venv/conda/your preferred tool with Python 3.10.
+Create a virtual environment using venv/conda/your preferred tool with Python 3.10 (highly recommend conda!).
 
 Install the dependencies.
 ```bash
