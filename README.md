@@ -24,3 +24,6 @@ In my webui for automated defect visual inspection, I want to achieve several th
     - The user should be able to also detect not live but videos.
     - After detection of a video the user will be prompted to choose if the user wants to see a report of the detection
     - After a period of live detection, the user can click on a button to stop live detection, and then be prompted to choose if the user wants to see a report of the live detection just now
+
+# Webui-Database-Functions Flowchart
+![System design](https://github.com/GunBay1008/sealing-visual-inspection-webui/assets/100042054/16d0af04-9c7f-4278-b199-365957d2443d)
