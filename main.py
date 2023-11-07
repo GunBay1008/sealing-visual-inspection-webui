@@ -31,5 +31,19 @@ def detection_page():
     """
     return render_template('detection.html')
 
+@app.route("/detection/tfod")
+def tfod():
+    """
+    This is a function to render tfod detection page
+    """
+    return render_template('detection_tfod.html')
+
+@app.route("/detection/yolov8")
+def yolov8():
+    """
+    This is a function to render yolov8 detection page
+    """
+    return render_template('detection_yolov8.html')
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1008, debug=True)
