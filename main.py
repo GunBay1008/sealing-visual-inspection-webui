@@ -24,6 +24,20 @@ def training_page():
     """
     return render_template('training.html')
 
+@app.route("/training/yolov8")
+def training_yolov8_page():
+    """
+    This is a function to render training yolov8 page
+    """
+    return render_template('training_yolov8.html')
+
+@app.route("/training/tfod")
+def training_tfod_page():
+    """
+    This is a function to render training tfod page
+    """
+    return render_template('training_tfod.html')
+
 @app.route("/detection")
 def detection_page():
     """
