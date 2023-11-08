@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YOLOv8 Training</title>
+    <!-- Include the Socket.IO client library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/5.3.6/socket.io.js"></script>
+    <style>
+        /* Styling for the output container */
+        #trainingOutput {
+            white-space: pre-wrap; /* Preserves spaces and line breaks */
+            background: #f4f4f4; /* Light grey background */
+            border: 1px solid #ddd; /* Grey border */
+            padding: 10px; /* Padding inside the container */
+            overflow-y: scroll; /* Add scroll if content overflows vertically */
+            height: 300px; /* Fixed height for the container */
+        }
+    </style>
+</head>
+<body>
+    <h1>YOLOv8 Training</h1>
+    <!-- The form for submitting training parameters -->
+    <form id="trainingForm" action="/start-training" method="post" enctype="multipart/form-data">
+        <label for="dataFile">Data YAML File:</label>
+        <input type="file" id="dataFile" name="dataFile" required><br><br>
+
+        <label for="modelSelect">Choose a model:</label>
+        <select name="modelType" id="modelSelect" required> <!-- Changed name to modelType to match server-side -->
+            <option value="yolov8n">YOLOv8n</option>
+            <option value="yolov8s">YOLOv8s</option>
+            <option value="yolov8m">YOLOv8m</option>
+            <option value="yolov8l">YOLOv8l</option>
+            <option value="yolov8x">YOLOv8x</option>
+        </select><br><br>
+
+        <label for="epochs">Epochs:</label>
+        <input type="number" id="epochs" name="epochs" required><br><br>
+
+        <label for="batchSize">Batch Size:</label>
+        <input type="number" id="batchSize" name="batchSize" required><br><br>
+
+        <input type="submit" value="Start Training">
+    </form>
+
+    <!-- Container to display the training output -->
+    <div id="trainingOutput">
+        <p>Real-time training results are still under development. 
+Please check the terminal for the current training progress once you started training.</p>
+    </div>
+
+    <script>
+        // Connect to the server using Socket.IO
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var form = document.getElementById('trainingForm');
+
+        // Override the form submission to use AJAX and prevent page reload
+        form.onsubmit = function(e) {
+            e.preventDefault();
+            var formData = new FormData(form);
+            // Use fetch API to send the form data to the server asynchronously
+            fetch('/start-training', {
+                method: 'POST',
+                body: formData,
+            }).then(function(response) {
+                console.log('Training started');
+            }).catch(function(error) {
+                console.error('Error:', error);
+            });
+        };
+
+        // Listen for 'training_output' events from the server
+        socket.on('training_output', function(msg) {
+            console.log("Received training output:", msg.data);
+            var outputDiv = document.getElementById('trainingOutput');
+            // Append the new output to the div and auto-scroll to the bottom
+            outputDiv.innerHTML += msg.data;
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        });
+    </script>
+</body>
+</html>
