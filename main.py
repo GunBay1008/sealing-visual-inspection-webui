@@ -175,5 +175,20 @@ def detection_yolov8():
     """
     return render_template('detection_yolov8.html')
 
+@app.route("/detection/yolov8/batch", methods=['GET', 'POST'])
+def detection_yolov8_batch():
+    if request.method == 'POST':
+        folder = request.files.getlist('folder')  # This will be a list of files
+        batch_size = int(request.form['batchSize'])
+        detections = int(request.form['detections'])
+        bootstrap = 'bootstrap' in request.form
+
+        # Logic to handle batch detection
+        # ...
+
+        return redirect(url_for('detection_yolov8_batch_results'))
+
+    return render_template('detection_yolov8_batch.html')
+
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=1008, debug=True)

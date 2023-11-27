@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YOLOv8 Batch Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to YOLOv8 Batch Detection Page</h1>
+    </header>
+
+    <main>
+        <h2>YOLOv8 Batch Detection</h2>
+        <form action="{{ url_for('detection_yolov8_batch') }}" method="post" enctype="multipart/form-data">
+            <label for="folder">Select Folder:</label>
+            <input type="file" id="folder" name="folder" webkitdirectory directory multiple><br>
+            <label for="batchSize">Batch Size:</label>
+            <input type="number" id="batchSize" name="batchSize"><br>
+            <label for="detections">Number of Detections:</label>
+            <input type="number" id="detections" name="detections"><br>
+            <input type="checkbox" id="bootstrap" name="bootstrap">
+            <label for="bootstrap">Use Bootstrapping</label><br>
+            <input type="submit" value="Start Detection">
+        </form>
+    </main>
+
+    <footer>
+        &copy; 2023 YOLOv8 Batch Detection
+    </footer>
+</body>
+</html>

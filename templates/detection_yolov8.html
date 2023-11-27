@@ -34,6 +34,25 @@
             text-align: center;
             padding: 10px;
         }
+
+        .button {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 5px;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -44,6 +63,9 @@
     <main>
         <h2>yolov8 detection page</h2>
         <p>yolov8 detection page</p>
+        <a class="button" href="/detection/yolov8/batch">Batch Detection</a>
+        <a class="button" href="/detection/yolov8/video">Video Detection</a>
+        <a class="button" href="/detection/yolov8/live">Live Detection</a>        
 
     </main>
 
