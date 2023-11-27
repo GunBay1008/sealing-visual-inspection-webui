@@ -14,6 +14,9 @@ import subprocess
 import sys
 import io
 from contextlib import contextmanager
+import random
+import shutil
+
 # import logging
 # logging.basicConfig(level=logging.DEBUG)
 
@@ -177,18 +180,46 @@ def detection_yolov8():
 
 @app.route("/detection/yolov8/batch", methods=['GET', 'POST'])
 def detection_yolov8_batch():
+    detection_completed = False
     if request.method == 'POST':
-        folder = request.files.getlist('folder')  # This will be a list of files
+        uploaded_files = request.files.getlist('folder')
         batch_size = int(request.form['batchSize'])
         detections = int(request.form['detections'])
         bootstrap = 'bootstrap' in request.form
 
-        # Logic to handle batch detection
-        # ...
+        temp_dir = 'temp_images'
+        os.makedirs(temp_dir, exist_ok=True)
 
-        return redirect(url_for('detection_yolov8_batch_results'))
+        for file in uploaded_files:
+            file.save(os.path.join(temp_dir, file.filename))
 
-    return render_template('detection_yolov8_batch.html')
+        model = YOLO(r"nano_best.pt")  # Load model once
+
+        try:
+            if bootstrap:
+                # Use bootstrapping (random selection with replacement)
+                for _ in range(detections):
+                    batch_files = random.choices(uploaded_files, k=batch_size)
+                    for file in batch_files:
+                        image_path = os.path.join(temp_dir, file.filename)
+                        results = model.predict(image_path, save=True, conf=0.25)
+            else:
+                # Process each file once in batches without random selection
+                for i in range(0, len(uploaded_files), batch_size):
+                    batch_files = uploaded_files[i:i + batch_size]
+                    for file in batch_files:
+                        image_path = os.path.join(temp_dir, file.filename)
+                        results = model.predict(image_path, save=True, conf=0.25)
+        except Exception as e:
+            print(f"Error during detection: {e}")
+        finally:
+            shutil.rmtree(temp_dir)
+
+        detection_completed = True
+
+    return render_template('detection_yolov8_batch.html', detection_completed=detection_completed)
+
+
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=1008, debug=True)

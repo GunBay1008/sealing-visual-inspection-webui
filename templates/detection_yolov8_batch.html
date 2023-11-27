@@ -56,6 +56,14 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
+        .alert {
+            color: green;
+            margin-top: 20px;
+            border: 1px solid green;
+            padding: 10px;
+            text-align: center;
+        }        
     </style>
 </head>
 <body>
@@ -65,9 +73,14 @@
 
     <main>
         <h2>YOLOv8 Batch Detection</h2>
+        {% if detection_completed %}
+        <div class="alert">
+            Detection process completed successfully!
+        </div>
+        {% endif %}
         <form action="{{ url_for('detection_yolov8_batch') }}" method="post" enctype="multipart/form-data">
             <label for="folder">Select Folder:</label>
-            <input type="file" id="folder" name="folder" webkitdirectory directory multiple><br>
+            <input type="file" id="folder" name="folder" multiple accept=".jpg, .jpeg, .png">
             <label for="batchSize">Batch Size:</label>
             <input type="number" id="batchSize" name="batchSize"><br>
             <label for="detections">Number of Detections:</label>
